@@ -4,6 +4,7 @@ Orchestrates all components: Brain, Voice, Actions, and Web UI.
 """
 
 import sys
+import json
 import threading
 import webbrowser
 import time
@@ -18,6 +19,14 @@ from assistant.brain import FridayBrain
 from assistant.voice import VoiceEngine
 from assistant import actions
 from web.app import app, socketio, broadcast_message, broadcast_voice_state
+
+# Telegram Bot (optional)
+try:
+    from assistant.telegram_bot import start_telegram_bot
+    TELEGRAM_AVAILABLE = True
+except ImportError:
+    TELEGRAM_AVAILABLE = False
+    print("⚠️ Telegram bot not available (python-telegram-bot not installed)")
 
 
 class FridayCore:
@@ -74,12 +83,11 @@ class FridayCore:
         return reply
 
     def _respond(self, text: str, source: str):
-        """Broadcast to UI and optionally speak."""
+        """Broadcast to UI and always speak (lady voice)."""
         broadcast_message("friday", text)
-        if source == "voice":
-            broadcast_voice_state("speaking", "Speaking...")
-            self.voice.speak(text)
-            broadcast_voice_state("idle", "Ready")
+        broadcast_voice_state("speaking", "Speaking...")
+        self.voice.speak_async(text)  # Always speak, regardless of source
+        broadcast_voice_state("idle", "Ready")
 
     def _on_voice_command(self, text: str, source: str = "voice"):
         """Callback from wake word detection loop."""
@@ -115,17 +123,42 @@ if __name__ == "__main__":
     import web.app as web_module
     web_module.friday_core = friday
 
-    # ── Start background threads ──────────────────────────
+    # ── Start core engine (wake word loop) ────────────────
     core_thread = threading.Thread(target=friday.start, daemon=True)
     core_thread.start()
 
-    browser_thread = threading.Thread(
-        target=open_browser_delayed, args=(WEB_PORT,), daemon=True
+    # ── Start Flask + SocketIO server in background ────────
+    print(f"\nFRIDAY UI Core -> http://localhost:{WEB_PORT}\n")
+    
+    # We run the socketio server in a separate thread so the GUI can start
+    server_thread = threading.Thread(
+        target=lambda: socketio.run(app, host="0.0.0.0", port=WEB_PORT, debug=False, use_reloader=False),
+        daemon=True
     )
-    browser_thread.start()
+    server_thread.start()
 
-    # ── Start Flask + SocketIO server ─────────────────────
-    print(f"\nFRIDAY UI -> http://localhost:{WEB_PORT}\n")
-    print("   Press Ctrl+C to shut down FRIDAY.\n")
+    # ── Start Telegram Bot (if enabled) ────────────────────
+    if TELEGRAM_AVAILABLE:
+        try:
+            telegram_config = BASE_DIR / "telegram" / "config.json"
+            if telegram_config.exists():
+                with open(telegram_config, 'r') as f:
+                    config = json.load(f)
+                
+                if config.get("TELEGRAM_TOKEN") and config.get("TELEGRAM_TOKEN") != "YOUR_BOT_TOKEN_HERE":
+                    print("🤖 Starting Telegram Bot...\n")
+                    telegram_thread = threading.Thread(
+                        target=lambda: start_telegram_bot(str(telegram_config)),
+                        daemon=False
+                    )
+                    telegram_thread.start()
+                else:
+                    print("⚠️ Telegram bot disabled (token not configured in telegram/config.json)\n")
+            else:
+                print("⚠️ Telegram bot config not found. Create telegram/config.json to enable.\n")
+        except Exception as e:
+            print(f"⚠️ Failed to start Telegram bot: {e}\n")
 
-    socketio.run(app, host="0.0.0.0", port=WEB_PORT, debug=False)
+    # ── Launch Desktop GUI ────────────────────────────────
+    from gui import launch_gui
+    launch_gui(f"http://localhost:{WEB_PORT}")

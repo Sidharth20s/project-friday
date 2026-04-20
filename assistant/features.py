@@ -10,6 +10,8 @@ import json
 from datetime import datetime, timedelta
 from pathlib import Path
 
+from assistant.config import WEATHER_API_KEY
+
 BASE_DIR = Path(__file__).resolve().parent
 
 
@@ -88,7 +90,7 @@ class WeatherFeature:
     """Fetch and report weather information."""
 
     def __init__(self, api_key: str = None):
-        self.api_key = api_key or os.getenv("OPENWEATHER_API_KEY")
+        self.api_key = api_key or WEATHER_API_KEY
         self.cache = {}
         self.cache_time = {}
 

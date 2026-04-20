@@ -1,0 +1,36 @@
+{
+    "TELEGRAM_TOKEN": "8246200758:AAHJqx52fUc0prHt2n1VmKsyyGt1zl0x740",
+    "USER_ID": 7509604569,
+    "ADMIN_IDS": [
+        7509604569
+    ],
+    "ALLOWED_COMMANDS": [
+        "system_status",
+        "battery",
+        "temperature",
+        "screenshot",
+        "open_app",
+        "close_app",
+        "lock_screen",
+        "sleep",
+        "restart",
+        "shutdown",
+        "login_history",
+        "shutdown_logs",
+        "clipboard",
+        "network_info"
+    ],
+    "NOTIFICATION_SETTINGS": {
+        "send_clipboard_alerts": true,
+        "send_system_alerts": true,
+        "alert_cpu_threshold": 80,
+        "alert_memory_threshold": 85,
+        "alert_disk_threshold": 90
+    },
+    "SECURITY": {
+        "rate_limit_enabled": true,
+        "max_commands_per_minute": 10,
+        "log_all_commands": true,
+        "require_confirmation_for_dangerous": true
+    }
+}

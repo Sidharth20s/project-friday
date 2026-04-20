@@ -31,7 +31,14 @@ wikipedia>=1.4.0
 pywin32>=305  # Windows registry and system integration
 pystray>=0.19.5  # System tray icon
 keyboard>=0.13.5  # Global hotkey support
-python-dotenv>=1.0.0
+
+# Telegram Bot
+python-telegram-bot>=20.0
+pyperclip>=1.8.2
+
+# Desktop GUI
+PyQt6>=6.4.0
+PyQt6-WebEngine>=6.4.0
 
 # Optional: Cloud/Email Integration
 # google-auth-oauthlib>=1.0.0

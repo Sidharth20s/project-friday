@@ -82,4 +82,8 @@ WAKE_WORD         = get_setting("WAKE_WORD", "hey friday")
 ASSISTANT_NAME    = get_setting("ASSISTANT_NAME", "Friday")
 VOICE_SPEED       = int(get_setting("VOICE_SPEED", "175"))
 VOICE_VOLUME      = float(get_setting("VOICE_VOLUME", "1.0"))
-WEB_PORT          = int(get_setting("WEB_PORT", "5050"))
+WEB_PORT          = int(get_setting("WEB_PORT", "5051"))
+
+# ─── Telegram Integration ──────────────────────────────────
+TELEGRAM_USER_ID  = get_setting("TELEGRAM_USER_ID")
+TELEGRAM_BOT_API  = get_setting("TELEGRAM_BOT_API")

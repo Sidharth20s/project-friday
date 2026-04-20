@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FRIDAY — AI Assistant</title>
+  <meta name="description" content="FRIDAY — Your personal AI assistant, inspired by Iron Man's FRIDAY. Powered by Google Gemini."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/static/style.css"/>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════
+     STARTUP SEQUENCE (Iron Man Style)
+════════════════════════════════════════════════════════ -->
+<div class="boot-screen" id="bootScreen">
+  <div class="boot-content">
+    <div class="boot-logo">FRIDAY</div>
+    <div class="boot-loader">
+      <div class="boot-bar"></div>
+    </div>
+    <div class="boot-status">INITIALIZING CORE SYSTEMS...</div>
+    <div class="boot-log" id="bootLog"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     BACKGROUND EFFECTS
+════════════════════════════════════════════════════════ -->
+<div class="bg-grid" id="bgGrid"></div>
+<div class="bg-circuit"></div>
+<div class="bg-particles" id="particles"></div>
+<div class="scanline"></div>
+
+<!-- ═══════════════════════════════════════════════════════
+     MAIN LAYOUT
+════════════════════════════════════════════════════════ -->
+<div class="hud-container">
+
+  <!-- ── LEFT PANEL ───────────────────────────────────── -->
+  <aside class="panel panel-left" id="leftPanel">
+
+    <!-- Arc Reactor Logo -->
+    <div class="arc-reactor" id="arcReactor">
+      <div class="arc-ring ar1"></div>
+      <div class="arc-ring ar2"></div>
+      <div class="arc-ring ar3"></div>
+      <div class="arc-core">
+        <div class="arc-core-inner"></div>
+      </div>
+    </div>
+
+    <div class="brand">
+      <h1 class="brand-name">FRIDAY</h1>
+      <p class="brand-sub">Fast Responsive Intelligent Digital Assistant for You</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- System Stats -->
+    <div class="stats-grid">
+      <div class="stat-card" id="statCpu">
+        <span class="stat-label">CPU</span>
+        <div class="stat-bar-wrap">
+          <div class="stat-bar" id="cpuBar" style="width:0%"></div>
+        </div>
+        <span class="stat-value" id="cpuVal">0%</span>
+      </div>
+      <div class="stat-card" id="statRam">
+        <span class="stat-label">RAM</span>
+        <div class="stat-bar-wrap">
+          <div class="stat-bar" id="ramBar" style="width:0%"></div>
+        </div>
+        <span class="stat-value" id="ramVal">0%</span>
+      </div>
+      <div class="stat-card" id="statDisk">
+        <span class="stat-label">DISK</span>
+        <div class="stat-bar-wrap">
+          <div class="stat-bar" id="diskBar" style="width:0%"></div>
+        </div>
+        <span class="stat-value" id="diskVal">0%</span>
+      </div>
+      <div class="stat-card" id="statBat">
+        <span class="stat-label">BATTERY</span>
+        <div class="stat-bar-wrap">
+          <div class="stat-bar bat-bar" id="batBar" style="width:0%"></div>
+        </div>
+        <span class="stat-value" id="batVal">--</span>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Clock -->
+    <div class="clock-block">
+      <div class="clock-time" id="clockTime">--:-- --</div>
+      <div class="clock-date" id="clockDate">Loading...</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Quick Commands -->
+    <div class="quick-commands">
+      <p class="section-label">QUICK COMMANDS</p>
+      <button class="quick-btn" onclick="sendQuick('What time is it?')">⏰ Time</button>
+      <button class="quick-btn" onclick="sendQuick('System info')">💻 System</button>
+      <button class="quick-btn" onclick="sendQuick('Take a screenshot')">📷 Screenshot</button>
+      <button class="quick-btn" onclick="sendQuick('Open Chrome')">🌐 Chrome</button>
+      <button class="quick-btn" onclick="sendQuick('Open Notepad')">📝 Notepad</button>
+      <button class="quick-btn" onclick="sendQuick('Open Calculator')">🧮 Calculator</button>
+      <button class="quick-btn" onclick="sendQuick('My notes')">🗒️ Notes</button>
+      <button class="quick-btn danger" onclick="clearMemory()">🧹 Clear Memory</button>
+    </div>
+
+  </aside>
+
+  <!-- ── MAIN CONTENT ──────────────────────────────────── -->
+  <main class="panel panel-main">
+
+    <!-- Status Bar -->
+    <div class="status-bar">
+      <div class="status-indicator" id="statusDot"></div>
+      <span class="status-text" id="statusText">Initializing FRIDAY...</span>
+      <div class="connection-badge" id="connBadge">● OFFLINE</div>
+    </div>
+
+    <!-- Waveform Visualizer -->
+    <div class="waveform-container" id="waveformContainer">
+      <div class="waveform" id="waveform">
+        <div class="wf-ring wfr1"></div>
+        <div class="wf-ring wfr2"></div>
+        <div class="wf-ring wfr3"></div>
+        <div class="wf-center" id="wfCenter">
+          <svg viewBox="0 0 60 60" class="mic-icon" id="micIcon">
+            <path d="M30 5 C24 5 20 10 20 16 L20 30 C20 36 24 41 30 41 C36 41 40 36 40 30 L40 16 C40 10 36 5 30 5Z" fill="currentColor"/>
+            <path d="M14 28 C14 37 21 44 30 44 C39 44 46 37 46 28" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+            <line x1="30" y1="44" x2="30" y2="52" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+            <line x1="22" y1="52" x2="38" y2="52" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
+      <p class="waveform-hint" id="waveformHint">Say <strong>"Hey Friday"</strong> or click the mic</p>
+    </div>
+
+    <!-- Chat Feed -->
+    <div class="chat-feed" id="chatFeed">
+      <div class="chat-welcome">
+        <p>FRIDAY is online. All systems operational.</p>
+        <p>Type below or say <em>"Hey Friday"</em> to begin.</p>
+      </div>
+    </div>
+
+    <!-- Input Area -->
+    <div class="input-area">
+      <button class="mic-btn" id="micBtn" onclick="triggerVoice()" title="Press to speak">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2C10.34 2 9 3.34 9 5v6c0 1.66 1.34 3 3 3s3-1.34 3-3V5c0-1.66-1.34-3-3-3z"/>
+          <path d="M5.5 10.5C5.5 14.09 8.41 17 12 17s6.5-2.91 6.5-6.5"/>
+          <line x1="12" y1="17" x2="12" y2="21"/>
+          <line x1="8" y1="21" x2="16" y2="21"/>
+        </svg>
+      </button>
+
+      <div class="input-wrap">
+        <input
+          type="text"
+          id="textInput"
+          class="text-input"
+          placeholder="Type a command or question..."
+          autocomplete="off"
+          spellcheck="false"
+        />
+        <div class="input-glow"></div>
+      </div>
+
+      <button class="send-btn" id="sendBtn" onclick="sendTextInput()" title="Send">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="22" y1="2" x2="11" y2="13"/>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+        </svg>
+      </button>
+    </div>
+
+  </main>
+
+  <!-- ── RIGHT PANEL ───────────────────────────────────── -->
+  <aside class="panel panel-right" id="rightPanel">
+
+    <p class="section-label">SYSTEM ONLINE</p>
+    <div class="online-modules">
+      <div class="module-row" id="mod-voice">
+        <div class="module-dot active"></div>
+        <span>Voice Engine</span>
+      </div>
+      <div class="module-row" id="mod-ai">
+        <div class="module-dot active"></div>
+        <span>AI Brain (Gemini)</span>
+      </div>
+      <div class="module-row" id="mod-actions">
+        <div class="module-dot active"></div>
+        <span>Action Engine</span>
+      </div>
+      <div class="module-row" id="mod-memory">
+        <div class="module-dot active"></div>
+        <span>Memory System</span>
+      </div>
+      <div class="module-row" id="mod-web">
+        <div class="module-dot active"></div>
+        <span>Web Interface</span>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <p class="section-label">CAPABILITIES</p>
+    <ul class="capabilities-list">
+      <li>🧠 Gemini AI Conversation</li>
+      <li>🎤 Wake Word Detection</li>
+      <li>🔊 Voice Responses</li>
+      <li>💻 Open Apps &amp; Files</li>
+      <li>🌦️ Weather Forecast</li>
+      <li>📷 Screenshots</li>
+      <li>🗒️ Notes &amp; Reminders</li>
+      <li>🔍 Web &amp; YouTube Search</li>
+      <li>📊 System Stats</li>
+      <li>🔊 Volume Control</li>
+      <li>🔌 Shutdown / Restart</li>
+    </ul>
+
+    <div class="divider"></div>
+
+    <p class="section-label">TIPS</p>
+    <div class="tips-box">
+      <p>"Hey Friday, open Chrome"</p>
+      <p>"What's the weather in Mumbai?"</p>
+      <p>"Remember that I have a meeting at 3pm"</p>
+      <p>"Search YouTube for lo-fi music"</p>
+      <p>"Take a screenshot"</p>
+      <p>"Who is Elon Musk?"</p>
+    </div>
+
+  </aside>
+
+</div>
+
+<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+<script src="/static/script.js"></script>
+</body>
+</html>

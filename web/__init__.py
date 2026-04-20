@@ -1,0 +1,3 @@
+"""
+FRIDAY web package init
+"""

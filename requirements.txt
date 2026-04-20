@@ -1,0 +1,39 @@
+# FRIDAY AI Assistant — Dependencies
+
+# AI Brain
+google-generativeai>=0.5.0
+
+# Voice Input (Speech Recognition)
+SpeechRecognition>=3.10.0
+pyaudio>=0.2.14
+
+# Text-to-Speech
+pyttsx3>=2.90
+
+# Web UI Server
+flask>=3.0.0
+flask-socketio>=5.3.6
+eventlet>=0.35.0
+
+# System Control & Info
+psutil>=5.9.8
+pyautogui>=0.9.54
+Pillow>=10.0.0
+
+# Environment Variables
+python-dotenv>=1.0.0
+
+# Utilities
+requests>=2.31.0
+wikipedia>=1.4.0
+
+# Windows Integration
+pywin32>=305  # Windows registry and system integration
+pystray>=0.19.5  # System tray icon
+keyboard>=0.13.5  # Global hotkey support
+python-dotenv>=1.0.0
+
+# Optional: Cloud/Email Integration
+# google-auth-oauthlib>=1.0.0
+# google-auth-httplib2>=0.2.0
+# google-api-python-client>=2.0.0

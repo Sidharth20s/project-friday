@@ -228,6 +228,19 @@ function updateVisionFeed(type, imageUrl) {
   feed.innerHTML = `<img src="${imageUrl}" style="width:100%; height:100%; object-fit:cover;">`;
 }
 
+function updateAgentLog(status, message) {
+  const statusEl = document.getElementById("agentStatus");
+  const logEl = document.getElementById("agentLog");
+  if (statusEl) statusEl.textContent = status.toUpperCase();
+  if (logEl) {
+    const line = document.createElement("div");
+    line.className = "log-line";
+    line.textContent = `> ${message}`;
+    logEl.appendChild(line);
+    logEl.scrollTop = logEl.scrollHeight;
+  }
+}
+
 // Enter key to send
 textInput.addEventListener("keydown", (e) => {
   if (e.key === "Enter" && !e.shiftKey) {

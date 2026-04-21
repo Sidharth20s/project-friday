@@ -1217,3 +1217,60 @@ body {
   font-size: 9px;
   color: var(--text-dim);
 }
+
+/* ── Autonomous Agent ──────────────────────────────────── */
+.agent-panel {
+  background: rgba(0, 20, 40, 0.4);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.agent-status {
+  font-family: var(--font-hud);
+  font-size: 11px;
+  color: var(--success);
+  text-shadow: 0 0 5px var(--success);
+  text-align: center;
+  padding: 4px;
+  border-bottom: 1px solid rgba(0, 255, 136, 0.2);
+}
+
+.agent-log {
+  height: 80px;
+  overflow-y: auto;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-dim);
+  background: rgba(0, 0, 0, 0.3);
+  padding: 6px;
+  border-radius: 4px;
+}
+
+.log-line {
+  margin-bottom: 4px;
+  border-left: 2px solid var(--cyan-dim);
+  padding-left: 6px;
+}
+
+.agent-btn {
+  background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(0, 102, 255, 0.1));
+  border: 1px solid var(--cyan-dim);
+  color: var(--cyan);
+  font-family: var(--font-hud);
+  font-size: 9px;
+  padding: 8px;
+  cursor: pointer;
+  width: 100%;
+  transition: all 0.2s;
+  letter-spacing: 1px;
+}
+
+.agent-btn:hover {
+  background: var(--cyan-dim);
+  color: #000;
+  box-shadow: 0 0 15px var(--cyan-dim);
+}

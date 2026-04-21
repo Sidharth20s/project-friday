@@ -6,6 +6,7 @@ from PyQt6.QtCore import QUrl, Qt
 from PyQt6.QtGui import QIcon
 import pystray
 from PIL import Image
+import keyboard
 
 class FridayGUI(QMainWindow):
     def __init__(self, url):
@@ -62,5 +63,14 @@ def launch_gui(url):
     # Start tray in a separate thread
     tray_thread = threading.Thread(target=setup_tray, args=(window,), daemon=True)
     tray_thread.start()
+
+    # Start hotkey listener
+    def toggle_mute():
+        # In a real app, this would mute the actual mic
+        # For now, we'll send a message to the UI
+        print("Mute toggled via F4")
+        # window.browser.page().runJavaScript("toggleMuteVisual()") # We'll add this to JS
+    
+    keyboard.add_hotkey('f4', toggle_mute)
     
     sys.exit(app.exec())

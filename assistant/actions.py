@@ -18,6 +18,10 @@ import importlib.util
 from pathlib import Path
 from assistant.config import WEATHER_API_KEY, DEFAULT_CITY
 from assistant import db
+from assistant.skills import skill_registry
+
+# Initialize skills
+skill_registry.load_from_directory(Path(__file__).parent.parent / "skills")
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 PLUGINS_DIR = BASE_DIR / "plugins"
@@ -56,6 +60,7 @@ APP_ALIASES = {
 def detect_intent(text: str) -> dict:
     """Parse user text and return action intent dictionary."""
     t = text.lower().strip()
+    intent = {"original_text": text}
 
     # Plugins check first
     plugin_response = check_plugins(t)
@@ -229,6 +234,11 @@ def check_plugins(text):
 
 def execute(intent: dict) -> str:
     action = intent.get("action")
+    
+    # Try skills first
+    skill_reply = skill_registry.handle_command(intent.get("original_text", ""))
+    if skill_reply: return skill_reply
+
     if action == "plugin_response": return intent["reply"]
     if action == "morning_briefing": return morning_briefing()
     if action == "placeholder": return f"The {intent['feature']} feature requires additional configuration. Check the README for details."

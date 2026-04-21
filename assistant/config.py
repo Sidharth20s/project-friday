@@ -87,3 +87,7 @@ WEB_PORT          = int(get_setting("WEB_PORT", "5051"))
 # ─── Telegram Integration ──────────────────────────────────
 TELEGRAM_USER_ID  = get_setting("TELEGRAM_USER_ID")
 TELEGRAM_BOT_API  = get_setting("TELEGRAM_BOT_API")
+
+# ─── Communication ─────────────────────────────────────────
+EMAIL_ADDRESS     = get_setting("EMAIL_ADDRESS")
+EMAIL_PASSWORD    = get_setting("EMAIL_PASSWORD")

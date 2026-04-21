@@ -93,9 +93,14 @@ function setStatus(state, message) {
     waveformHint.textContent = "⚙️ Processing...";
     micBtn.classList.remove("active");
     showTypingIndicator();
+  } else if (state === "muted") {
+    waveform.classList.add("muted");
+    waveformHint.innerHTML = '<span style="color:var(--danger)">🔴 MICROPHONE MUTED</span>';
+    micBtn.classList.add("muted");
   } else {
     waveformHint.innerHTML = 'Say <strong>"Hey Friday"</strong> or click the mic';
     micBtn.classList.remove("active");
+    micBtn.classList.remove("muted");
   }
 }
 
@@ -207,6 +212,20 @@ function clearMemory() {
       </div>
     `;
   }
+}
+
+function toggleMuteVisual() {
+  if (currentState === "muted") {
+    setStatus("idle", "Microphone Active");
+  } else {
+    setStatus("muted", "Microphone Muted");
+  }
+}
+
+function updateVisionFeed(type, imageUrl) {
+  const feed = document.getElementById(`${type}Feed`);
+  if (!feed) return;
+  feed.innerHTML = `<img src="${imageUrl}" style="width:100%; height:100%; object-fit:cover;">`;
 }
 
 // Enter key to send

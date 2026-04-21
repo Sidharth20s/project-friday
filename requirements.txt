@@ -40,7 +40,14 @@ pyperclip>=1.8.2
 PyQt6>=6.4.0
 PyQt6-WebEngine>=6.4.0
 
-# Optional: Cloud/Email Integration
-# google-auth-oauthlib>=1.0.0
-# google-auth-httplib2>=0.2.0
-# google-api-python-client>=2.0.0
+# Vision & Image Processing
+opencv-python>=4.8.0
+ultralytics>=8.0.0
+
+# Communication & Automation
+pywhatkit>=5.4
+selenium>=4.10.0
+playwright>=1.35.0
+
+# Database
+sqlite3  # Built-in, but good to note

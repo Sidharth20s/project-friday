@@ -116,6 +116,11 @@
         <button class="quick-btn" onclick="sendQuick('Open Notepad')">📝 Notepad</button>
         <button class="quick-btn" onclick="sendQuick('Open Calculator')">🧮 Calculator</button>
         <button class="quick-btn" onclick="sendQuick('My notes')">🗒️ Notes</button>
+        <div class="divider"></div>
+        <p class="section-label">GAMING</p>
+        <button class="quick-btn" onclick="sendQuick('Launch Steam')">🎮 Steam</button>
+        <button class="quick-btn" onclick="sendQuick('Open Epic Games')">🛡️ Epic</button>
+        <button class="quick-btn" onclick="sendQuick('What games are running?')">🕹️ Active Games</button>
         <button class="quick-btn danger" onclick="clearMemory()">🧹 Clear Memory</button>
       </div>
 
@@ -185,6 +190,52 @@
       </div>
 
     </main>
+
+    <!-- ── RIGHT PANEL (Vision & Communication) ────────── -->
+    <aside class="panel panel-right" id="rightPanel">
+      
+      <p class="section-label">VISION SYSTEMS</p>
+      <div class="vision-module">
+        <div class="hex-panel">
+          <div class="hex-header">SCREEN ANALYZER</div>
+          <div class="vision-feed" id="screenFeed">
+            <div class="vision-placeholder">OFFLINE</div>
+          </div>
+          <button class="vision-btn" onclick="sendQuick('What\'s on my screen?')">ANALYZE SCREEN</button>
+        </div>
+      </div>
+
+      <div class="vision-module">
+        <div class="hex-panel">
+          <div class="hex-header">WEBCAM VISION</div>
+          <div class="vision-feed" id="webcamFeed">
+            <div class="vision-placeholder">OFFLINE</div>
+          </div>
+          <button class="vision-btn" onclick="sendQuick('Analyze webcam')">START CAMERA</button>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <p class="section-label">COMMUNICATION</p>
+      <div class="comm-status">
+        <div class="comm-card">
+          <span class="comm-icon">📧</span>
+          <div class="comm-info">
+            <span class="comm-title">EMAIL</span>
+            <span class="comm-desc" id="emailStatus">Not Connected</span>
+          </div>
+        </div>
+        <div class="comm-card">
+          <span class="comm-icon">💬</span>
+          <div class="comm-info">
+            <span class="comm-title">WHATSAPP</span>
+            <span class="comm-desc" id="whatsappStatus">Disconnected</span>
+          </div>
+        </div>
+      </div>
+
+    </aside>
 
   </div>
 
